@@ -3,6 +3,7 @@ package com.aspire.schoolmanagement.models;
 
 import com.aspire.schoolmanagement.enums.UserType;
 
+import java.util.Hashtable;
 import java.util.Map;
 
 public class Student extends User {
@@ -12,7 +13,7 @@ public class Student extends User {
     private float percentage;
     private Map<String, Integer> marks;
 
-    public Student(String name, String id, long contact, String address, int grade, char section, float percentage, Map<String, Integer> marks) {
+    public Student(String name, Long id, long contact, String address, int grade, char section, float percentage, Map<String, Integer> marks) {
         this.setName(name);
         this.setId(id);
         this.setContact(contact);
@@ -59,11 +60,6 @@ public class Student extends User {
 
     public void evaluate() {
         this.grade++;
-    }
-
-    @Override
-    public int hashCode() {
-        return Integer.parseInt(getId());
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.aspire.schoolmanagement.controller;
 
-import com.aspire.schoolmanagement.models.TestService;
+import com.aspire.schoolmanagement.models.Student;
+import com.aspire.schoolmanagement.service.TestService;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;

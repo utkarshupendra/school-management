@@ -1,4 +1,4 @@
-package com.aspire.schoolmanagement.models;
+package com.aspire.schoolmanagement.service;
 
 import com.aspire.schoolmanagement.config.PostgresManager;
 import org.springframework.stereotype.Service;
