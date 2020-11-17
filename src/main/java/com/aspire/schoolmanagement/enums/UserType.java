@@ -1,8 +1,7 @@
 package com.aspire.schoolmanagement.enums;
 
 public enum UserType {
-    TEACHER,
-    ADMIN,
-    SUPPORT,
-    STUDENT
+    EMPLOYEE,
+    STUDENT,
+    DEFAULT
 }

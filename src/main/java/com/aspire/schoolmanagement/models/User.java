@@ -2,49 +2,17 @@ package com.aspire.schoolmanagement.models;
 
 
 import com.aspire.schoolmanagement.enums.UserType;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
-public abstract class User {
+@Getter
+@Setter
+@AllArgsConstructor
+public class User {
     private String name;
     private Long id;
     private long contact;
     private String address;
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public long getContact() {
-        return contact;
-    }
-
-    public void setContact(long contact) {
-        this.contact = contact;
-    }
-
-    public abstract UserType getUserType();
-
-    /*@Override
-    public String toString() {
-        return "Name: "+getName() +", ID: "+getId();
-    }*/
+    private UserType userType;
 }

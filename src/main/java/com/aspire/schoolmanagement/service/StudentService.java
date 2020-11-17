@@ -1,18 +1,30 @@
 package com.aspire.schoolmanagement.service;
 
-import com.aspire.schoolmanagement.config.PostgresManager;
 import com.aspire.schoolmanagement.models.Student;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.util.Map;
 
 @Service
 public class StudentService {
-    public Student createStudent(Student student) {
-        Connection connection = PostgresManager.getConnection();
+
+    public Map<String, Object> save(Map<String, Object> student) {
+
+        return student;
+    }
+
+    /*public Student createStudent(Student student) {
+        jdbcTemplate.update("insert into student(name, contact, address, grade, section, percentage) values (?,?,?,?,?,?)",
+                student.getName(),
+                student.getContact(),
+                student.getAddress(),
+                student.getGrade(),
+                String.valueOf(student.getSection()),
+        return student;
+    }*/
+
+        /*Connection connection = PostgresManager.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("insert into student(name, contact, address, grade, section, percentage) values (?,?,?,?,?,?)");
             preparedStatement.setString(1, student.getName());
@@ -32,6 +44,6 @@ public class StudentService {
             System.err.println(ex.getMessage());
         }
         return null;
-    }
+    }*/
 
 }
