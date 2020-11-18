@@ -1,10 +1,8 @@
 package com.aspire.schoolmanagement.service;
 
 import com.aspire.schoolmanagement.enums.UserType;
-import com.aspire.schoolmanagement.models.Employee;
-import com.aspire.schoolmanagement.models.Student;
-import com.aspire.schoolmanagement.models.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
