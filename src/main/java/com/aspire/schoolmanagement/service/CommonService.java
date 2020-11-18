@@ -20,7 +20,7 @@ public class CommonService {
                 // convert map into student
                 return studentService.save(user);
             case EMPLOYEE:
-                //convert map into employee
+                // convert map into employee
                 return employeeService.save(user);
             default:
                 return null;
