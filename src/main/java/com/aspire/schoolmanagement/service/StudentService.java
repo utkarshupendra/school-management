@@ -1,10 +1,20 @@
 package com.aspire.schoolmanagement.service;
 
+import com.aspire.schoolmanagement.models.Student;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -33,14 +43,11 @@ public class StudentService {
                 student.get("section"),
                 Float.parseFloat((String) student.get("percentage")));*/
 
-        /*List<Map<String, Object>> studentList = jdbcTemplate.queryForList("select * from student where name=?", student.get("name"));
-        List<Student> students = jdbcTemplate.query("select * from student", new RowMapper<Student>() {
-            @Override
-            public Student mapRow(ResultSet resultSet, int i) throws SQLException {
-                Student student1 = new Student(resultSet.getString("name"), resultSet.getLong("studentID"), resultSet.getLong("contact"), null, 0, 'A');
-                return student1;
-            }
-        });*/
+        List<Map<String, Object>> studentList = jdbcTemplate.queryForList("select * from student where name=?", student.get("name"));
+        List<Student> students = jdbcTemplate.query("select * from student", (resultSet, i) -> {
+            Student student1 = new Student(resultSet.getString("name"), resultSet.getLong("studentID"), resultSet.getLong("contact"), null, 0, 'A');
+            return student1;
+        });
 
         Map<String, Object> sMap = jdbcTemplate.queryForMap("insert into student(name, contact, address, grade, section, percentage) values(?,?,?,?,?,?) RETURNING studentID",
                 student.get("name"),
@@ -52,6 +59,50 @@ public class StudentService {
 
         student.put("studentID", sMap.get("studentID"));
         return student;
+    }
+
+    // [1,4,2,3,6]
+    public List<Student> getAllStudents() {
+        List<Map<String, Object>> students = jdbcTemplate.queryForList("select * from student");
+        List<Student> studentList = new ArrayList<>();
+
+        studentList = students.stream()
+                .map(stringObjectMap -> new Student(stringObjectMap.get("name"), stringObjectMap.get("address"), stringObjectMap.get("contact")))
+                .sorted((o1, o2) -> o1.getGrade() - o2.getGrade())
+                .filter((o1) -> o1.getGrade() < 5)
+                .collect(Collectors.toList());
+
+        /*studentList = students.stream().map(new Function<Map<String, Object>, Student>() {
+            @Override
+            public Student apply(Map<String, Object> stringObjectMap) {
+                return new Student(stringObjectMap.get("name"), stringObjectMap.get("address"), stringObjectMap.get("contact"));
+            }
+        }).sorted(new Comparator<Student>() {
+            @Override
+            public int compare(Student o1, Student o2) {
+                return o1.getGrade() - o2.getGrade();
+            }
+        }).collect(Collectors.toList());*/
+
+               /* .forEach(new Consumer<Student>() {
+            @Override
+            public void accept(Student student) {
+                System.out.println(student);
+            }
+        });*/
+
+        students.stream().sorted((o1, o2) -> {
+            int x = ((Float) o1.get("percentage")).compareTo((Float) o2.get("percentage"));
+            return x;
+        });
+
+
+        students.stream().sorted(new Comparator<Map<String, Object>>() {
+            @Override
+            public int compare(Map<String, Object> o1, Map<String, Object> o2) {
+                return ((Float) o1.get("percentage")).compareTo((Float) o2.get("percentage"));
+            }
+        })
     }
 
     /*public Student createStudent(Student student) {
