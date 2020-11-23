@@ -1,5 +1,6 @@
 package com.aspire.schoolmanagement.controller;
 
+import com.aspire.schoolmanagement.models.Employee;
 import com.aspire.schoolmanagement.models.User;
 import com.aspire.schoolmanagement.service.CommonService;
 import lombok.RequiredArgsConstructor;
@@ -25,5 +26,10 @@ public class StudentController {
     @PostMapping(path = "create/test", consumes = MediaType.APPLICATION_JSON_VALUE)
     public User createUser(@RequestBody User user) {
         return user;
+    }
+
+    @PostMapping(path = "employee", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Employee createEmployee(@RequestBody Employee employee) {
+        return commonService.saveEmployee(employee);
     }
 }

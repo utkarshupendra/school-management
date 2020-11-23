@@ -2,23 +2,27 @@ package com.aspire.schoolmanagement.models;
 
 import com.aspire.schoolmanagement.enums.ContractTenure;
 import com.aspire.schoolmanagement.enums.Department;
-import com.aspire.schoolmanagement.enums.UserType;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import javax.persistence.*;
 
 @Getter
 @Setter
-public class Employee extends User {
-    private float salary;
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name = "employee")
+public class Employee {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long employeeID;
+    private Long contact;
+    private String address;
+    private Float salary;
     private String designation;
-    private Department department;
-    private ContractTenure contractTenure;
-
-    public Employee(String name, Long id, Long contact, String address, float salary, String designation, Department department, ContractTenure contractTenure) {
-        super(name, id, contact, address, UserType.EMPLOYEE);
-        this.salary = salary;
-        this.designation = designation;
-        this.department = department;
-        this.contractTenure = contractTenure;
-    }
+    private String department;
+    private String contracttenure;
 }
