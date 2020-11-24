@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 public class StudentRepository {
     private final JdbcTemplate jdbcTemplate;
 
+    @Transactional
     public Map<String, Object> save(Map<String, Object> student) {
         //Select data from table
 

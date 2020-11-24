@@ -5,10 +5,7 @@ import com.aspire.schoolmanagement.models.User;
 import com.aspire.schoolmanagement.service.CommonService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -30,6 +27,20 @@ public class StudentController {
 
     @PostMapping(path = "employee", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Employee createEmployee(@RequestBody Employee employee) {
+        System.out.println("In the 1st project");
         return commonService.saveEmployee(employee);
     }
+
+    @PutMapping(path = "employee/address")
+    public String updateAddress(@RequestParam("id") Long id, @RequestParam("address") String address) {
+        return commonService.updateEmployee(id, address);
+    }
+
+    //2nd project
+    @PostMapping(path = "employee/http", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Employee createEmployeeOveRHTTP(@RequestBody Employee employee) {
+        System.out.println("In the 2nd project");
+        return commonService.saveEmployeeOverHTTP(employee);
+    }
+
 }
