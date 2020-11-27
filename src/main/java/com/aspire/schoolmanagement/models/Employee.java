@@ -2,10 +2,7 @@ package com.aspire.schoolmanagement.models;
 
 import com.aspire.schoolmanagement.enums.ContractTenure;
 import com.aspire.schoolmanagement.enums.Department;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -15,6 +12,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Entity
 @Table(name = "employee")
+@ToString
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

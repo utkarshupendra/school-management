@@ -4,6 +4,7 @@ import com.aspire.schoolmanagement.models.Employee;
 import com.aspire.schoolmanagement.models.User;
 import com.aspire.schoolmanagement.service.CommonService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,6 +12,7 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 @RequestMapping(path = "user")
 public class StudentController {
     private final CommonService commonService;
@@ -27,7 +29,7 @@ public class StudentController {
 
     @PostMapping(path = "employee", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Employee createEmployee(@RequestBody Employee employee) {
-        System.out.println("In the 1st project");
+        log.info("In the 1st project");
         return commonService.saveEmployee(employee);
     }
 
@@ -39,8 +41,13 @@ public class StudentController {
     //2nd project
     @PostMapping(path = "employee/http", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Employee createEmployeeOveRHTTP(@RequestBody Employee employee) {
-        System.out.println("In the 2nd project");
+        log.info("In the 2nd project");
         return commonService.saveEmployeeOverHTTP(employee);
     }
 
+    @GetMapping(path = "employee/httpget")
+    public String createEmployeeOveRHTTPGet() {
+        log.info("GET In the 2nd project");
+        return "Success";
+    }
 }

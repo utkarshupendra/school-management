@@ -6,7 +6,10 @@ import com.aspire.schoolmanagement.models.Student;
 import com.aspire.schoolmanagement.models.StudentJPA;
 import com.aspire.schoolmanagement.repository.EmployeeRepository;
 import com.aspire.schoolmanagement.repository.StudentRepository;
+import com.aspire.schoolmanagement.util.RunnableExample;
+import com.aspire.schoolmanagement.util.ThreadExample;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -18,10 +21,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class CommonService {
 
     //private final StudentService studentService;
@@ -53,7 +60,13 @@ public class CommonService {
                 StudentJPA student1 = studentRepository.save(student);
                 student1.setPercentage(30);
                 studentRepository.save(student1);
-                //studentRepository.findById(2L);
+
+
+                StudentJPA s1 = studentRepository.getOne(2L);
+                StudentJPA s2 = studentRepository.getOne(3L);
+                StudentJPA s3 = studentRepository.getOne(4L);
+
+
                 return new HashMap<>();
             //return studentService.save(user);
             case EMPLOYEE:
@@ -64,8 +77,8 @@ public class CommonService {
         }
     }
 
-    public Employee saveEmployee(Employee employee) {
-        System.out.println("Saving using 1st project");
+    public synchronized Employee saveEmployee(Employee employee) {
+        log.error("Saving using 1st project");
         return employeeRepository.save(employee);
     }
 
@@ -77,12 +90,37 @@ public class CommonService {
     //2nd project
     public Employee saveEmployeeOverHTTP(Employee employee) {
         RestTemplate restTemplate = new RestTemplate();
-        System.out.println("Calling the 1st project endpoint");
+        Map<String, String> map = new ConcurrentHashMap<>();
+        Thread thread1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                log.info("Inner Thread : Calling the 1st project endpoint");
+                ResponseEntity<Employee> employeeResponseEntity = restTemplate.postForEntity("http://localhost:18080/user/employee/", employee, Employee.class);
+                log.info("Inner Thread : " + employeeResponseEntity.getBody().toString());
+                map.put("ABC","123");
+            }
+        });
+        thread1.start();
+
+        RunnableExample example = new RunnableExample();
+        Thread t2 = new Thread(example);
+        t2.start();
+
+        ThreadExample example1 = new ThreadExample();
+        example1.start();
+
+        ExecutorService executorService = Executors.newFixedThreadPool(10);
+        executorService.submit(example);
+
+        log.info("Calling the 1st project endpoint");
         ResponseEntity<Employee> employeeResponseEntity = restTemplate.postForEntity("http://localhost:18080/user/employee/", employee, Employee.class);
+        log.info(employeeResponseEntity.getBody().toString());
+        log.info(map.get("ABC"));
         return employeeResponseEntity.getBody();
     }
 
     public Employee getEmployeeByID(Long id) {
+        employeeRepository.getOne(id);
         Optional<Employee> emp = employeeRepository.findById(id);
         if (emp.isPresent()) {
             return emp.get();
