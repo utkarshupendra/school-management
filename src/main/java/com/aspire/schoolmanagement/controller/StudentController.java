@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -27,6 +28,7 @@ public class StudentController {
         return user;
     }
 
+    @CrossOrigin
     @PostMapping(path = "employee", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Employee createEmployee(@RequestBody Employee employee) {
         log.info("In the 1st project");
@@ -49,5 +51,14 @@ public class StudentController {
     public String createEmployeeOveRHTTPGet() {
         log.info("GET In the 2nd project");
         return "Success";
+    }
+
+    @GetMapping(path="employee/{employeeID}")
+    @CrossOrigin
+    public Map<String, Object> getEmployee(@PathVariable("employeeID") Long employeeID) {
+        String xyz = commonService.getDummyString();
+        log.info(xyz);
+        return commonService.getEmployeeByID(employeeID);
+        //return new HashMap<>();
     }
 }

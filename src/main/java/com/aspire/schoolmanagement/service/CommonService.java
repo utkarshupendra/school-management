@@ -48,7 +48,7 @@ public class CommonService {
 
 
                 //Q3
-                StudentJPA student = new StudentJPA(
+                /*StudentJPA student = new StudentJPA(
                         null,
                         String.valueOf(user.get("name")),
                         Long.parseLong(String.valueOf(user.get("contact"))),
@@ -56,10 +56,10 @@ public class CommonService {
                         Integer.parseInt(String.valueOf(user.get("grade"))),
                         String.valueOf(user.get("section")).charAt(0),
                         Float.parseFloat(String.valueOf(user.get("percentage")))
-                );
-                StudentJPA student1 = studentRepository.save(student);
-                student1.setPercentage(30);
-                studentRepository.save(student1);
+                );*/
+                //StudentJPA student1 = studentRepository.save(student);
+                //student1.setPercentage(30);
+                //studentRepository.save(student1);
 
 
                 StudentJPA s1 = studentRepository.getOne(2L);
@@ -119,12 +119,21 @@ public class CommonService {
         return employeeResponseEntity.getBody();
     }
 
-    public Employee getEmployeeByID(Long id) {
+    public Map<String, Object> getEmployeeByID(Long id) {
         employeeRepository.getOne(id);
         Optional<Employee> emp = employeeRepository.findById(id);
         if (emp.isPresent()) {
-            return emp.get();
+            Map<String, Object> map = new HashMap<>();
+            map.put("contact", emp.get().getContact());
+            map.put("address", emp.get().getAddress());
+            return map;
         }
+
         return null;
+    }
+
+    public String getDummyString() {
+        String x = "a";
+        return x + "b" + "c";
     }
 }

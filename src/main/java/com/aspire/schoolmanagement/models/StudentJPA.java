@@ -23,4 +23,5 @@ public class StudentJPA {
     private int grade;
     private char section;
     private float percentage;
+    private boolean isDeleted;
 }
